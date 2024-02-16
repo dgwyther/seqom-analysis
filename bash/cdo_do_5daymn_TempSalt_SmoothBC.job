@@ -1,0 +1,64 @@
+#!/bin/bash
+#PBS -P jk72
+#PBS -q normal
+#PBS -l mem=128gb,walltime=24:00:00,ncpus=1
+#PBS -l wd
+#PBS -N cdo_vbar
+#PBS -M david.gwyther@gmail.com
+#PBS -l storage=gdata/jk72
+cd /g/data/jk72/deg581/seqom/analysis/bash
+
+module load cdo
+
+model_dir=$'/g/data/jk72/deg581/seqom/seqld_daily_1yr_SmoothBC/'
+hisname=$'roms_his_'
+year_start=$'001'
+year_end=$'010'
+outname=$'/g/data/jk72/deg581/seqom/analysis/data/proc/his_SmoothBC'
+
+# section 1
+varname=$'temp'
+
+eval in_name=$"${model_dir}${hisname}0{${year_start}..${year_end}}"
+
+eval cdo -v -select,name=${varname} ${in_name}.nc  ${outname}_${varname}_${year_start}-${year_end}.nc
+cdo -v timselmean,5 ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_5daymn.nc
+
+#cdo -v monmean ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_monmean.nc
+#cdo ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_clima.nc
+#cdo ymonsub ${outname}_${varname}_${year_start}-${year_end}_monmean.nc -ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_anom.nc
+
+# section 2
+varname=$'salt'
+
+eval cdo -v -select,name=${varname} ${in_name}.nc  ${outname}_${varname}_${year_start}-${year_end}.nc
+cdo -v timselmean,5 ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_5daymn.nc
+
+#cdo -v monmean ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_monmean.nc
+#cdo ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_clima.nc
+#cdo ymonsub ${outname}_${varname}_${year_start}-${year_end}_monmean.nc -ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_anom.nc
+
+# section 3
+varname=$'u'
+
+eval in_name=$"${model_dir}${hisname}0{${year_start}..${year_end}}"
+
+eval cdo -v -select,name=${varname} ${in_name}.nc  ${outname}_${varname}_${year_start}-${year_end}.nc
+cdo -v timselmean,5 ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_5daymn.nc
+
+#cdo -v monmean ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_monmean.nc
+#cdo ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_clima.nc
+#cdo ymonsub ${outname}_${varname}_${year_start}-${year_end}_monmean.nc -ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_anom.nc
+
+varname=$'v'
+
+eval in_name=$"${model_dir}${hisname}0{${year_start}..${year_end}}"
+
+eval cdo -v -select,name=${varname} ${in_name}.nc  ${outname}_${varname}_${year_start}-${year_end}.nc
+cdo -v timselmean,5 ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_5daymn.nc
+
+#cdo -v monmean ${outname}_${varname}_${year_start}-${year_end}.nc ${outname}_${varname}_${year_start}-${year_end}_monmean.nc
+#cdo ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_clima.nc
+#cdo ymonsub ${outname}_${varname}_${year_start}-${year_end}_monmean.nc -ymonavg ${outname}_${varname}_${year_start}-${year_end}_monmean.nc ${outname}_${varname}_${year_start}-${year_end}_monmean_anom.nc
+
+exit

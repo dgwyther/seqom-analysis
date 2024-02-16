@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -P jk72
+#PBS -q normal
+#PBS -l mem=128gb,walltime=24:00:00,ncpus=1
+#PBS -l wd
+#PBS -N cdo_vbar
+#PBS -M david.gwyther@gmail.com
+#PBS -l storage=gdata/jk72
+cd /g/data/jk72/deg581/seqom/ana/bash
+
+module load cdo
+
+cdo -v timselmean,5 -cat '/g/data/jk72/deg581/seqom/seqld_daily_1yr_3DailyRelax/roms_his_000[7..8].nc' ../data/proc/seqld_daily_1yr_3DailyRelax_0007-8_5daymn.nc
+
+exit
